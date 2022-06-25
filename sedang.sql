@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2022 at 02:57 PM
+-- Generation Time: Jun 25, 2022 at 06:31 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -69,6 +69,30 @@ INSERT INTO `kelasdiikuti` (`id`, `id_siswa`, `kodeKelas`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tugas`
+--
+
+CREATE TABLE `tugas` (
+  `id` int(11) NOT NULL,
+  `id_guru` int(11) NOT NULL,
+  `id_kelas` int(11) NOT NULL,
+  `judulTugas` varchar(100) NOT NULL,
+  `soal` varchar(100) NOT NULL,
+  `tglpost` date NOT NULL,
+  `deadline` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tugas`
+--
+
+INSERT INTO `tugas` (`id`, `id_guru`, `id_kelas`, `judulTugas`, `soal`, `tglpost`, `deadline`) VALUES
+(1, 6, 4, 'membuat aplikasi sederhana', 'buatlah sebuah aplikasi sederhana  yang bertemakan pendidikan di era pandemi', '2022-06-25', '2022-06-26'),
+(2, 6, 4, 'membuat website sederhana', 'buatlah sebuah website yang bertemakan pendidikan di era pandemi seperti sekarang ini', '2022-06-25', '2022-06-29');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -107,6 +131,12 @@ ALTER TABLE `kelasdiikuti`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tugas`
+--
+ALTER TABLE `tugas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -126,6 +156,12 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `kelasdiikuti`
 --
 ALTER TABLE `kelasdiikuti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tugas`
+--
+ALTER TABLE `tugas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
