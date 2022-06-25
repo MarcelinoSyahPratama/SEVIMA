@@ -1,0 +1,63 @@
+body{
+	margin:0;
+	padding: 0;
+}
+.main{
+	width: 100%;
+	height: 100%;
+}
+.main .kiri{
+	width: 40%;
+	height: 100%;
+	background:linear-gradient(222.96deg,#3570d9 22.33%,#1a3475 107.21%);
+	float:left;
+	position: absolute;
+}
+.main .kiri .gambar{
+	width: 324px;
+	height: 220px;
+	background-color: white;
+	border-radius: 9px;
+}
+.main .kiri .gambar .foto{
+	width: 90%;
+	height: 90%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+    border-radius: 9px;
+}
+.main .kiri .gambar .foto img{
+	width: 100%;
+	height: 100%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+    border-radius: 9px;
+}
+.main .kanan{
+	width: 60%;
+	height:100%;
+	background-color:rgba(255, 255, 255, 0.39);
+	float: right;
+}
+.main .kanan .atas{
+	margin: 100px;
+}
+input[type=email]{
+	width: 80%;
+	height: 6%;
+	margin-bottom: 10px;
+}
+input[type=password]{
+	width: 80%;
+	height: 6%;
+	margin-bottom: 20px;
+}
+input[type=text]{
+	width: 80%;
+	height: 6%;
+	margin-bottom: 20px;
+}
+button[type=submit]{
+	width: 20%;
+	height: 6%;
+}
