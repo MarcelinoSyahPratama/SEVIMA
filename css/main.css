@@ -36,4 +36,25 @@
   .pad-bot {
     padding-bottom: 5px;
   }
-  
+  .listmateri{
+    background-color: hsla(240, 2%, 10%, 0.092);
+    width: 100%;
+    border: black solid 1px;
+    padding: 10px;
+    display: inline-flex;
+  }
+  .listmateri p{
+    margin-top: -10px;
+  }
+  .listmateri .kanan{
+    float: right;
+    width: 5%;
+  }
+  .listmateri .kiri{
+    float: right;
+    width: 95%;
+  }
+  .listmateri .kanan button{
+    width: 50px;
+    height: 50px;
+  }
