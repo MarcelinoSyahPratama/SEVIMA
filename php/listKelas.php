@@ -74,10 +74,5 @@
       </div>
 
     </div>
-
-
-    <script src="assest/semantic.min.js"></script>
-    <script src="assest/jquery.js"></script>
-    <script src="assest/package.js"></script>
   </body>
 </html>

@@ -4,10 +4,10 @@ session_start();
 
 if( isset($_POST["login"]) ) {
 
-	$uname = $_POST["uname"];
+	$email = $_POST["email"];
 	$password = $_POST["password"];
 
-	$result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$uname' ");
+	$result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email' ");
 
 	//cek username
 	if( mysqli_num_rows($result) === 1 ) {
@@ -17,19 +17,23 @@ if( isset($_POST["login"]) ) {
 			//set session
 			$_SESSION["login"] = true;
 			$_SESSION["nama"] = $row["nama"];
-			$_SESSION["username"] = $row["username"];
+			$_SESSION["email"] = $row["email"];
 			$_SESSION["id"] = $row["id"];
-			$_SESSION["tipe"] = $row["tipe"];
-			$user = $row["level"] == 'user';
+			$siswa = $row["level"] == 'siswa';
+			$guru = $row["level"] == 'guru';
 			$admin = $row["level"] == 'admin';
-			if($user) {
-			
-			$_SESSION["user"] = true;
+			if($siswa) {
+			    $_SESSION["siswa"] = true;
+			}else if($guru) {
+                echo "<script>
+                document.location.href = 'listKelasGuru.php';
+				</script>";
+                $_SESSION["guru"] = true;
+                exit;
 			}else if($admin) {
-			
-			$_SESSION["admin"] = true;
-			exit;
-			}
+                $_SESSION["admin"] = true;
+                exit;
+            }
 		}
 	}
 
@@ -38,6 +42,7 @@ $error = true;
 if( isset($_POST["daftar"])){
     $nama = $_POST["nama"];
 	$email = $_POST["email"];
+    $role = $_POST["role"];
 	$pass = $_POST["pass"];
 	$repass = $_POST["repass"];
 
@@ -71,7 +76,7 @@ if( isset($_POST["daftar"])){
 $pass = password_hash($pass, PASSWORD_DEFAULT);
 
  //tambah user ke database
-mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$pass', 'user')");
+mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$pass', '$role')");
 return mysqli_affected_rows($conn);
 }
 
@@ -105,7 +110,7 @@ return mysqli_affected_rows($conn);
 				<form action="" method="post">
 					<ul style="list-style:none;">
 						<li>
-							<label for="email" style="font-size: 0.9em;color:#9ea0a5;">Username</label><br>
+							<label for="email" style="font-size: 0.9em;color:#9ea0a5;">Email</label><br>
 							<input type="text" name="email" id="email" placeholder="Masukkan Email">
 						</li>
 						<li>
@@ -138,6 +143,13 @@ return mysqli_affected_rows($conn);
                         <div class="input-group input-group-sm mb-3">
                             <label for="" style="margin-right:65px;">Email</label>
                             <input type="email" class="form-control" name="email" aria-label="email" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label for="">Daftar Sebagai</label>
+                            <select name="role" id="role" class="form-control">
+                                <option value="siswa">Siswa</option>
+                                <option value="guru">Guru</option>
+                            </select>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <label for="" style="margin-right:35px;">Password</label>
