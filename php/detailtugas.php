@@ -1,4 +1,74 @@
+<?php 
+require "koneksi.php";
+session_start();
+$idsiswa = $_SESSION["id"];
+$idsoal=$_GET["id"];
+if(isset($_POST["ambiltugas"]) ) {
+    
+    $filejawaban = upload();
+    if( !$filejawaban ) {
+        return false;
+    }
+    mysqli_query($conn, "INSERT INTO jawaban VALUES('', '$idsiswa', '$idsoal','$filejawaban')");
+    // return mysqli_affected_rows($conn);  
+  }
 
+  function upload(){
+    $name_file = $_FILES['filejawaban']['name'];
+    $size_file = $_FILES['filejawaban']['size'];
+    $error = $_FILES['filejawaban']['error'];
+    $tmp_name = $_FILES['filejawaban']['tmp_name'];
+    
+    //cek upload
+    if( $error === 4 ) {
+        echo "<script>
+                alert('Pilih file Terlebih Dahulu')
+              </script>
+              ";
+        return false;
+    }
+    
+    //cek format file
+    $format_file = explode('.', $name_file);
+    $format_file = strtolower(end($format_file));
+    
+    //cek size image
+    if( $size_file > 1000000 ) {
+        echo "<script>
+                alert('Ukuran File Terlalu Besar')
+              </script>
+              ";
+        return false;
+    }
+    
+    //upload image
+    //generate name image
+    $new_file_name = uniqid();
+    $new_file_name .='.';
+    $new_file_name .= $format_file;
+    
+    move_uploaded_file($tmp_name, '../jawabansiswa/' . $new_file_name);
+    return $new_file_name;
+    }
+$datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
+$verify = query("SELECT * FROM jawaban WHERE id_siswa=$idsiswa AND id_tugas=$idsoal");
+if($verify){
+    echo '<style type="text/css">
+    .tugasselesai {
+        display: none;
+    }
+    #statusselesai{
+        display:block;
+    }
+    </style>';
+}else{
+    echo '<style type="text/css">
+    #statusselesai{
+        display:none;
+    }
+    </style>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -40,37 +110,32 @@
           </div>
           
         </div>
+        <?php foreach ($datasoal as $row) : ?>
         <div class="ui header">
-          <div class="heading2"><h1>Judul Tugas</h1> <p>oktafiano | 20-03-2022 - 30-03-2022</p></div>
+          <div class="heading2"><h1><?php echo $row["judulTugas"] ?></h1> <p><?php echo $_SESSION["nama"] ?> | <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p></div>
           <div class="ui clearing divider"></div>
         </div>
         <div class="tugas">
             <div class="soal">
                 <h2><strong>Soal</strong></h2>
-                <p>4. Mengerjakan tugas dibuku tulis matematika jawaban dan cara penyelesaian dengan menuliskan nama, no absen</p>
+                <p><?php echo $row["soal"] ?></p>
             </div>
             <div class="jawab">
                 <center>
                     <div class="kirimjawab">
-                        <h2 style="color: white;">Kirim Tugas</h2>
-                        <form action="" method="post">
-                            <input type="file" class="form-control">
+                        <h2 class="tugasselesai" style="color: white;">Kirim Tugas</h2>
+                        <h2 id="statusselesai" style="color: white;"> SELESAI</h2>
+                        <form action="" method="post" enctype="multipart/form-data" class="tugasselesai">
+                            <input type="file" class="form-control" name="filejawaban">
                             <button type="submit" class="form-control" name="ambiltugas">Kirim</button>
                         </form>
                     </div>
                 </center>
-                
             </div>
-            
         </div>
-
-        
-
-        
-
-
+        <?php endforeach; ?>
+        </div>
       </div>
-
     </div>
   </body>
 </html>
