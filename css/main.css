@@ -1,0 +1,39 @@
+.navbar {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .p-t {
+    padding-top: 25px;
+  }
+  
+  .no-shadow {
+    border: none !important;
+  }
+  
+  .bg-yellow {
+    background-color: #fffc5c !important;
+    opacity: 0.5;
+  }
+  
+  .nomargin {
+    margin-top: -5px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .heading {
+    color: #8c8c8c !important;
+  }
+  
+  .bg-grey {
+    background: #c2c2c2 !important;
+  }
+  
+  .custom-width {
+    width: 400px !important;
+  }
+  
+  .pad-bot {
+    padding-bottom: 5px;
+  }
+  
