@@ -1,4 +1,19 @@
-
+<?php
+session_start();
+require "koneksi.php";
+$_SESSION["id_kelas"]=4;
+$idkel = $_SESSION["id_kelas"];
+$idguru = $_SESSION["id"];
+$tglnow = date("Y/m/d");
+if(isset($_POST["tambahtugas"]) ) {
+    $Jtugas = $_POST["Jtugas"];
+    $soal = $_POST["soal"];
+    $deadline = $_POST["deadline"];
+    mysqli_query($conn, "INSERT INTO tugas VALUES('', '$idguru', '$idkel','$Jtugas','$soal','$tglnow','$deadline')");
+    // return mysqli_affected_rows($conn);  
+  }
+$datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idkel ORDER BY id desc");
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -41,31 +56,57 @@
           
         </div>
         <div class="ui three item menu no-shadow bg-yellow nomargin" style="font-size: 20px">
-            <a href="reqmat.php" class="item">Tambah Tugas</a>
+            <a type="button" data-bs-target="#addtugas" data-bs-toggle="modal" class="item">Tambah Tugas</a>
             <a href="buat_materi_user.php" class="item">Buat Test</a>
         </div>
         <div class="ui header">
           <div class="heading2">Materi</div>
           <div class="ui clearing divider"></div>
         </div>
+        <?php foreach ($datatugas as $row) : ?>
         <div class="listmateri">
             <div class="kiri">
-                <h3>Tugas Latihan 1</h3>
-                <p>20 jan 2020</p>
+                <h3><?php echo $row["judulTugas"] ?></h3>
+                <p>Waktu Pengerjaan : <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p>
             </div>
             <div class="kanan">
                 <a href=""><button class="btn-danger"><i class="fa-solid fa-trash"></i></button></a>
             </div>
-            
         </div>
-
-        
-
-        
-
-
+        <?php endforeach; ?>
       </div>
-
     </div>
+    <div class="modal fade" id="addtugas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah mapel</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="input-group input-group-sm mb-3">
+                            <label for="" style="margin-right:60px;">Judul Tugas</label>
+                            <input type="text" class="form-control" name="Jtugas" aria-label="Jtugas" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label for="" style="margin-right:90px;">Soal</label>
+                            <textarea class="form-control" name="soal" id="soal"></textarea>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label for="" style="margin-right:65px;">Deadline</label>
+                            <input type="date" class="form-control" name="deadline" aria-label="deadline" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="tambahtugas">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </body>
   </body>
 </html>
