@@ -35,6 +35,45 @@ if( isset($_POST["login"]) ) {
 
 $error = true;
 }
+if( isset($_POST["daftar"])){
+    $nama = $_POST["nama"];
+	$email = $_POST["email"];
+	$pass = $_POST["pass"];
+	$repass = $_POST["repass"];
+
+
+	//cek ketersediaan email
+	$result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email' ");
+
+	if( mysqli_fetch_assoc($result) ) {
+		echo "<script>
+				alert('Email sudah dipakai');
+                document.location.href = 'login.php';
+				</script>";
+				header("login.php");
+				$error=true;
+                return false;
+	}
+
+	//cek konfirmasi password
+
+	if( $pass !== $repass) {
+		echo "<script>
+				alert('konfirmasi password tidak sama');
+                document.location.href = 'login.php';
+				</script>";
+				$error=true;				
+		        return false;
+	}
+
+ // enkripsi password
+
+$pass = password_hash($pass, PASSWORD_DEFAULT);
+
+ //tambah user ke database
+mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$pass', 'user')");
+return mysqli_affected_rows($conn);
+}
 
  ?>
 <!DOCTYPE html>
@@ -90,30 +129,30 @@ $error = true;
                         <h5 class="modal-title" id="exampleModalLabel">Registrasi</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" style="display: block;">
+                    <div class="modal-body">
                         
                         <div class="input-group input-group-sm mb-3">
-                            <label for="">Nama</label>
+                            <label for="" style="margin-right:60px;">Nama</label>
                             <input type="text" class="form-control" name="nama" aria-label="nama" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group input-group-sm mb-3">
-                            <label for="">Username</label>
-                            <input type="text" class="form-control" name="username" aria-label="Username" aria-describedby="basic-addon1">
+                            <label for="" style="margin-right:65px;">Email</label>
+                            <input type="email" class="form-control" name="email" aria-label="email" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group input-group-sm mb-3">
-                            <label for="">Password</label>
-                            <input type="text" class="form-control" name="pass" id="pass" aria-label="passwprd" aria-describedby="basic-addon1">
+                            <label for="" style="margin-right:35px;">Password</label>
+                            <input type="password" class="form-control" name="pass" id="pass" aria-label="password" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group input-group-sm mb-3">
-                            <label for="">Re-Password</label>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                            <input type="checkbox" onclick="viewpass()"> Lihat Password
+                            <label for="" style="margin-right:10px;">Re-Password</label>
+                            <input type="password" class="form-control" name="repass" id="repass" aria-label="repassword" aria-describedby="basic-addon1">
                         </div>
+                        <input type="checkbox" onclick="viewpass()"> Lihat Password
                         
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary" name="daftar">DAFTAR</button>
                     </div>
                 </form>
             </div>
@@ -184,11 +223,14 @@ $error = true;
 </div>modal insert close -->
 <script>
     function viewpass() {
-        var x = document.getElementById("Pass");
+        var x = document.getElementById("pass");
+        var y = document.getElementById("repass")
         if (x.type === "password") {
             x.type = "text";
+            y.type = "text;"
         } else {
             x.type = "password";
+            y.type = "password";
         }
     }
 </script>
