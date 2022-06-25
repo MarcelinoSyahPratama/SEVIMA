@@ -1,8 +1,7 @@
 <?php
 session_start();
 require "koneksi.php";
-$_SESSION["id_kelas"]=4;
-$idkel = $_SESSION["id_kelas"];
+$idkel = $_GET["id"];
 $idguru = $_SESSION["id"];
 $tglnow = date("Y/m/d");
 if(isset($_POST["tambahtugas"]) ) {
@@ -11,6 +10,12 @@ if(isset($_POST["tambahtugas"]) ) {
     $deadline = $_POST["deadline"];
     mysqli_query($conn, "INSERT INTO tugas VALUES('', '$idguru', '$idkel','$Jtugas','$soal','$tglnow','$deadline')");
     // return mysqli_affected_rows($conn);  
+  }
+  function hapus($id){
+    global $conn;
+    mysqli_query($conn, "DELETE FROM tugas where id=$id");
+  
+    return mysqli_affected_rows($conn);
   }
 $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idkel ORDER BY id desc");
 ?>
@@ -33,17 +38,11 @@ $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idke
             <a class="item">
               Selamat Belajar 
             </a>
-            <a href="paket1.php" class="item">
+            <a href="listKelasGuru.php" class="item">
               Daftar Kelas
             </a>
-            <a href="paket1.php" class="item">
-                Gabung Kelas
-              </a>
-            <a href="paket1.php" class="item">
-                Profile
-              </a>
-              <a href="paket1.php" class="item">
-                Daftar Tugas
+              <a type="button" data-bs-target="#addtugas" data-bs-toggle="modal" class="item">
+                Tambah Tugas
               </a>
             <a href="logout.php" class="item">
               Log out
@@ -54,10 +53,6 @@ $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idke
             <b><h3 style="font-size: 25px"><strong>SEDANG</strong></h3></b>
           </div>
           
-        </div>
-        <div class="ui three item menu no-shadow bg-yellow nomargin" style="font-size: 20px">
-            <a type="button" data-bs-target="#addtugas" data-bs-toggle="modal" class="item">Tambah Tugas</a>
-            <a href="buat_materi_user.php" class="item">Buat Test</a>
         </div>
         <div class="ui header">
           <div class="heading2">Materi</div>
@@ -72,7 +67,7 @@ $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idke
                 </a>
             </div>
             <div class="kanan">
-                <a href=""><button class="btn-danger"><i class="fa-solid fa-trash"></i></button></a>
+                <a href="hapusmateri.php?id=<?php echo $row['id'] ?>"><button class="btn-danger"><i class="fa-solid fa-trash"></i></button></a>
             </div>
         </div>
         <?php endforeach; ?>

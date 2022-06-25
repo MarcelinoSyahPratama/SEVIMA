@@ -49,12 +49,6 @@ $datakelas = query("SELECT * FROM kelas WHERE id_guru=$id ORDER BY id desc");
             <a type="button" data-bs-target="#addkelas" data-bs-toggle="modal" class="item">
                 Buat Kelas
               </a>
-            <a href="paket1.php" class="item">
-                Profile
-              </a>
-              <a href="paket1.php" class="item">
-                Buat Ujian
-              </a>
             <a href="logout.php" class="item">
               Log out
             </a>
@@ -80,7 +74,7 @@ $datakelas = query("SELECT * FROM kelas WHERE id_guru=$id ORDER BY id desc");
                   <img src="https://gstatic.com/classroom/themes/img_read.jpg" style="width: 130%;height: 140px;">
                 </a>
                 <div class="content">
-                  <a class="header"><?php echo $row["namaKelas"] ?></a>
+                  <a href="listTugasGuru.php?id=<?php $id=$row['id']; echo $id;?>" class="header"><?php echo $row["namaKelas"] ?></a>
                   <div class="meta"><?php echo $row["namaMapel"] ?></div>
                   <div class="description">
                     <p>Kode Kelas:<strong><?php echo $row["kodeKelas"] ?></strong></p>
@@ -91,7 +85,7 @@ $datakelas = query("SELECT * FROM kelas WHERE id_guru=$id ORDER BY id desc");
                   <i class="fas fa-chalkboard-teacher"></i> &nbsp;&nbsp;&nbsp;Mulai Belajar
                 </div>
               </div>
-            </div>   
+            </div>
             <?php endforeach; ?>         
           </div>    
         </div>      

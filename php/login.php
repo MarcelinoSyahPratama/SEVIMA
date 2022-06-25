@@ -19,10 +19,14 @@ if( isset($_POST["login"]) ) {
 			$_SESSION["nama"] = $row["nama"];
 			$_SESSION["email"] = $row["email"];
 			$_SESSION["id"] = $row["id"];
+            $_SESSION["kelas"] = $row["kelas"];
 			$siswa = $row["level"] == 'siswa';
 			$guru = $row["level"] == 'guru';
 			$admin = $row["level"] == 'admin';
 			if($siswa) {
+                echo "<script>
+                document.location.href = 'listKelas.php';
+				</script>";
 			    $_SESSION["siswa"] = true;
 			}else if($guru) {
                 echo "<script>
@@ -30,10 +34,7 @@ if( isset($_POST["login"]) ) {
 				</script>";
                 $_SESSION["guru"] = true;
                 exit;
-			}else if($admin) {
-                $_SESSION["admin"] = true;
-                exit;
-            }
+			}
 		}
 	}
 
@@ -44,6 +45,7 @@ if( isset($_POST["daftar"])){
 	$email = $_POST["email"];
     $role = $_POST["role"];
 	$pass = $_POST["pass"];
+	$kelas = $_POST["kelas"];
 	$repass = $_POST["repass"];
 
 
@@ -76,8 +78,8 @@ if( isset($_POST["daftar"])){
 $pass = password_hash($pass, PASSWORD_DEFAULT);
 
  //tambah user ke database
-mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$pass', '$role')");
-return mysqli_affected_rows($conn);
+mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$pass', '$role','$kelas')");
+// return mysqli_affected_rows($conn);
 }
 
  ?>
@@ -150,6 +152,10 @@ return mysqli_affected_rows($conn);
                                 <option value="siswa">Siswa</option>
                                 <option value="guru">Guru</option>
                             </select>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label for="" style="margin-right:65px;">Kelas</label>
+                            <input type="text" class="form-control" name="kelas" aria-label="kelas" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <label for="" style="margin-right:35px;">Password</label>

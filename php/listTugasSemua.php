@@ -1,14 +1,16 @@
-<?php 
-require "koneksi.php";
+<?php
 session_start();
-$idsoal=$_GET["id"];
-$nama=$_SESSION["nama"];
-$datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
+require "koneksi.php";
+$idsiswa = $_SESSION["id"];
+$tglnow = date("Y/m/d");
+
+$datatugas = query("SELECT * FROM tugas ORDER BY id desc");
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="refresh" content="1" > 
     <title>home</title>
     <link rel="stylesheet" href="../css/semantic.min.css">
     <link rel="stylesheet" href="../css/main.css">
@@ -22,11 +24,14 @@ $datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
         <div class="ui menu inverted navbar large blue">
           <div class="left menu" style="font-size: 20px;">
             <a class="item">
-              Selamat Datang <?php echo strtok($nama, " ");?> 
+              Selamat Belajar <strong><?php echo strtok($_SESSION["nama"], " ") ?></strong>
             </a>
-            <a href="listKelasGuru.php" class="item">
+            <a href="listKelas.php" class="item">
               Daftar Kelas
             </a>
+              <a href="listTugasSemua.php" class="item">
+                Daftar Tugas
+              </a>
             <a href="logout.php" class="item">
               Log out
             </a>
@@ -37,33 +42,22 @@ $datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
           </div>
           
         </div>
-        <?php foreach ($datasoal as $row) : ?>
         <div class="ui header">
-          <div class="heading2"><h1><?php echo $row["judulTugas"] ?></h1> <p><?php echo $_SESSION["nama"] ?> | <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p></div>
+          <div class="heading2">Materi</div>
           <div class="ui clearing divider"></div>
         </div>
-        <div class="tugas">
-            <div class="soal">
-                <h2><strong>Soal</strong></h2>
-                <p><?php echo $row["soal"] ?></p>
-            </div>
-            <div class="jawab">
-                <center>
-                    <div class="kirimjawab">
-                            <a href="listJawaban.php?id=<?php echo $row["id"]; ?>"><button type="button" class="form-control" name="ambiltugas">Lihat Jawaban Siswa</button></a>
-                    </div>
-                </center>  
+        <?php foreach ($datatugas as $row) : ?>
+        <div class="listmateri">
+            <div class="kiri">
+                <a href="detailtugas.php?id=<?php echo $row["id"] ?>">
+                    <h3><?php echo $row["judulTugas"] ?></h3>
+                    <p>Waktu Pengerjaan : <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p>
+                </a>
             </div>
         </div>
         <?php endforeach; ?>
-
-        
-
-        
-
-
       </div>
-
     </div>
+  </body>
   </body>
 </html>
