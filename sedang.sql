@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2022 at 06:17 AM
+-- Generation Time: Jun 25, 2022 at 02:57 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -24,27 +24,87 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kelas`
+--
+
+CREATE TABLE `kelas` (
+  `id` int(11) NOT NULL,
+  `namaGuru` varchar(60) NOT NULL,
+  `namaKelas` varchar(60) NOT NULL,
+  `namaMapel` varchar(60) NOT NULL,
+  `id_guru` int(11) NOT NULL,
+  `kodeKelas` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kelas`
+--
+
+INSERT INTO `kelas` (`id`, `namaGuru`, `namaKelas`, `namaMapel`, `id_guru`, `kodeKelas`) VALUES
+(2, 'Oktafiano Syah Pranata', 'X RPL C', 'PD', 6, 'hAkkE'),
+(3, 'Oktafiano Syah Pranata', 'XIII RPL C', 'PD', 5, 'theBR'),
+(4, 'Oktafiano Syah Pranata', 'XI RPL C', 'BASDAT', 6, 'jACax'),
+(5, 'Oktafiano Syah Pranata', 'XII RPL C', 'PBO', 6, 'BzRpb');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelasdiikuti`
+--
+
+CREATE TABLE `kelasdiikuti` (
+  `id` int(11) NOT NULL,
+  `id_siswa` int(11) NOT NULL,
+  `kodeKelas` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kelasdiikuti`
+--
+
+INSERT INTO `kelasdiikuti` (`id`, `id_siswa`, `kodeKelas`) VALUES
+(1, 5, 'hAkkE'),
+(2, 5, 'jACax');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `level` enum('admin','user') NOT NULL
+  `level` enum('admin','siswa','guru') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `nama`, `username`, `password`, `level`) VALUES
-(1, 'marcelino', 'marcel', '$2y$10$QWPhLobVIYvfke1KLwH13uIp6jMd/3gPru2UHlsHUGoScDz8uRGyC', 'admin');
+INSERT INTO `user` (`id`, `nama`, `email`, `password`, `level`) VALUES
+(1, 'marcelino', '', '$2y$10$QWPhLobVIYvfke1KLwH13uIp6jMd/3gPru2UHlsHUGoScDz8uRGyC', 'admin'),
+(4, 'okta', '', '$2y$10$Ne.NrTo4VsKAs1imvHTHmOFtsR1Bczw50poSPu4pLegDRQf9lDGtm', ''),
+(5, 'Marcelino Syah Pratama', 'marcell032017@gmail.com', '$2y$10$h4VGPiBrjnyXyXu36tPaZesN6tUusNvv/gkWZKMW4ImswiV5OG5IS', 'siswa'),
+(6, 'Oktafiano Syah Pranata', 'okta@gmail.com', '$2y$10$lwKM.lFoGUTTDbXng4oacelc7Jmo9HFbRU7s1giCW4XJ7OFUTH3re', 'guru');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `kelas`
+--
+ALTER TABLE `kelas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `kelasdiikuti`
+--
+ALTER TABLE `kelasdiikuti`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
@@ -57,10 +117,22 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `kelas`
+--
+ALTER TABLE `kelas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `kelasdiikuti`
+--
+ALTER TABLE `kelasdiikuti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
