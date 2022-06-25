@@ -9,7 +9,7 @@ if(isset($_POST["ambiltugas"]) ) {
     if( !$filejawaban ) {
         return false;
     }
-    mysqli_query($conn, "INSERT INTO jawaban VALUES('', '$idsiswa', '$idsoal','$filejawaban')");
+    mysqli_query($conn, "INSERT INTO jawaban VALUES('', '$idsiswa', '$idsoal','$filejawaban','')");
     // return mysqli_affected_rows($conn);  
   }
 
@@ -51,6 +51,7 @@ if(isset($_POST["ambiltugas"]) ) {
     return $new_file_name;
     }
 $datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
+$datanilai  = query("SELECT * FROM jawaban WHERE id_siswa = $idsiswa AND id_tugas = $idsoal");
 $verify = query("SELECT * FROM jawaban WHERE id_siswa=$idsiswa AND id_tugas=$idsoal");
 if($verify){
     echo '<style type="text/css">
@@ -88,16 +89,13 @@ if($verify){
             <a class="item">
               Selamat Belajar 
             </a>
-            <a href="paket1.php" class="item">
+            <a href="listKelas.php" class="item">
               Daftar Kelas
             </a>
-            <a href="paket1.php" class="item">
+            <a href="#.php" class="item">
                 Gabung Kelas
               </a>
-            <a href="paket1.php" class="item">
-                Profile
-              </a>
-              <a href="paket1.php" class="item">
+              <a href="listTugasSemua.php" class="item">
                 Daftar Tugas
               </a>
             <a href="logout.php" class="item">
@@ -112,7 +110,7 @@ if($verify){
         </div>
         <?php foreach ($datasoal as $row) : ?>
         <div class="ui header">
-          <div class="heading2"><h1><?php echo $row["judulTugas"] ?></h1> <p><?php echo $_SESSION["nama"] ?> | <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p></div>
+          <div class="heading2"><h1><?php echo $row["judulTugas"] ?></h1> <p><?php echo $_SESSION["nama"] ?> | <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p><p>Nilai Anda = <?php foreach ($datanilai as $rowa){echo $rowa["nilai"];} ?> </p></div>
           <div class="ui clearing divider"></div>
         </div>
         <div class="tugas">

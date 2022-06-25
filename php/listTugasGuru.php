@@ -4,6 +4,7 @@ require "koneksi.php";
 $idkel = $_GET["id"];
 $idguru = $_SESSION["id"];
 $tglnow = date("Y/m/d");
+$nama = $_SESSION["nama"];
 if(isset($_POST["tambahtugas"]) ) {
     $Jtugas = $_POST["Jtugas"];
     $soal = $_POST["soal"];
@@ -36,7 +37,7 @@ $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idke
         <div class="ui menu inverted navbar large blue">
           <div class="left menu" style="font-size: 20px;">
             <a class="item">
-              Selamat Belajar 
+              Selamat Belajar   <?php echo strtok($nama, " ");?>
             </a>
             <a href="listKelasGuru.php" class="item">
               Daftar Kelas

@@ -43,7 +43,7 @@ $datakelas = query("SELECT * FROM kelas WHERE id_guru=$id ORDER BY id desc");
             <a class="item">
               Selamat Datang <?php echo strtok($nama, " "); ?>
             </a>
-            <a href="paket1.php" class="item">
+            <a href="LISTkELASgURU.php" class="item">
               Daftar Kelas
             </a>
             <a type="button" data-bs-target="#addkelas" data-bs-toggle="modal" class="item">

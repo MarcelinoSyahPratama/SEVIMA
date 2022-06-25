@@ -3,11 +3,12 @@ session_start();
 require "koneksi.php";
 $idtugas = $_GET["id"];
 $idguru = $_SESSION["id"];
+$nama=$_SESSION["nama"];
 $tglnow = date("Y/m/d");
 if(isset($_POST["menilai"]) ) {
     $nilai = $_POST["nilai"];
     $idsiswa = $_POST["id_siswa"];
-    mysqli_query($conn, "UPDATE jawaban SET nilai='$nilai' WHERE id_siswa=$idsiswa AND $id_tugas = idtugas");
+    mysqli_query($conn, "UPDATE jawaban SET nilai = $nilai WHERE id_siswa = $idsiswa AND id_tugas=$idtugas");
     // return mysqli_affected_rows($conn);  
   }
 $datajawaban = query("SELECT nama FROM user INNER JOIN jawaban ON user.id = jawaban.id_siswa");
@@ -35,7 +36,7 @@ $jawab = query("SELECT * FROM jawaban");
         <div class="ui menu inverted navbar large blue">
           <div class="left menu" style="font-size: 20px;">
             <a class="item">
-              Selamat Belajar 
+              Selamat Belajar  <?php echo strtok($nama, " "); ?>
             </a>
             <a href="listKelasGuru.php" class="item">
               Daftar Kelas
@@ -63,28 +64,23 @@ $jawab = query("SELECT * FROM jawaban");
           
         <div class="listmateri">
             <div class="kiri">
-                <a href="detailtugasGuru.php?id=">
                     <h3><?php echo $rows["judulTugas"]; ?></h3>
                     <p><?php echo $row["nama"]; ?></p>
+                    <p>Nilai Anda Adalah<?php echo $rowse["nilai"]; ?></p>
                     <form action="" method="post">
-                      <input type="number" placeholder="Beri Nilai Disini" name="menilai">
+                      <input type="number" placeholder="Beri Nilai Disini" name="nilai">
                       <input type="text" name="id_siswa" style="display:none;" value=<?php echo $rowse["id_siswa"];?>>
                       <button type="submit" name="menilai">Beri Nilai</button>
                     </form>
                     <a href="../jawabansiswa/<?php echo $rowse["jawaban"] ?>" target="_BLANK"><button name="buka">Buka Tugas</button></a>
-                </a>
+                
             </div>
-            <div class="kanan">
-              
-              
-            </div> 
         </div>
         <?php endforeach; ?>
         <?php endforeach; ?>
         <?php endforeach; ?>
       </div>
     </div>
-    <input type="text" placeholder="Beri Nilai Disini"><button type="submit" name="menilai">Beri Nilai</button>
   </body>
   </body>
 </html>
