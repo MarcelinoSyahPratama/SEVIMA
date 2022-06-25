@@ -2,17 +2,24 @@
 require "koneksi.php";
 session_start();
 $nama=$_SESSION["nama"];
-// function RandomString()
-//     {
-//         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-//         $randstring = '';
-//         for ($i = 0; $i < 10; $i++) {
-//             $randstring = $characters[rand(0, strlen($characters))];
-//         }
-//         return $randstring;
-//     }
-
-//     RandomString();
+$id=$_SESSION["id"];
+function generateRandomString($length = 5) {
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+$kodeKelas = generateRandomString();
+if(isset($_POST["tambah"]) ) {
+  $Nkelas = $_POST["Nkelas"];
+  $Nmapel = $_POST["Nmapel"];
+  mysqli_query($conn, "INSERT INTO kelas VALUES('', '$nama', '$Nkelas','$Nmapel',$id,'$kodeKelas')");
+  // return mysqli_affected_rows($conn);  
+}
+$datakelas = query("SELECT * FROM kelas WHERE id_guru=$id ORDER BY id desc");
 
 ?>
 <!DOCTYPE html>
@@ -66,24 +73,27 @@ $nama=$_SESSION["nama"];
 
         <div class="ui stackable four column grid">
           <div class="row">
+          <?php foreach ($datakelas as $row) : ?>
             <div class="column">
               <div class="ui card">
                 <a class="image" href="" style="overflow: hidden;">
                   <img src="https://gstatic.com/classroom/themes/img_read.jpg" style="width: 130%;height: 140px;">
                 </a>
                 <div class="content">
-                  <a class="header">XII RPL C</a>
-                  <div class="meta">Matematika</div>
+                  <a class="header"><?php echo $row["namaKelas"] ?></a>
+                  <div class="meta"><?php echo $row["namaMapel"] ?></div>
                   <div class="description">
-                    <p>from:<strong>Marcel</strong></p>
+                    <p>Kode Kelas:<strong><?php echo $row["kodeKelas"] ?></strong></p>
+                    <p>from:<strong><?php echo $nama ?></strong></p>
                   </div>
                 </div>
                 <div class="extra content">
                   <i class="fas fa-chalkboard-teacher"></i> &nbsp;&nbsp;&nbsp;Mulai Belajar
                 </div>
               </div>
-              </div>              
-          </div>
+            </div>   
+            <?php endforeach; ?>         
+          </div>    
         </div>      
       </div>
     </div>
@@ -99,7 +109,7 @@ $nama=$_SESSION["nama"];
                         
                         <div class="input-group input-group-sm mb-3">
                             <label for="" style="margin-right:60px;">Nama Kelas</label>
-                            <input type="text" class="form-control" name="Nmapel" aria-label="Nmapel" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="Nkelas" aria-label="Nkelas" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <label for="" style="margin-right:65px;">Nama Mapel</label>
