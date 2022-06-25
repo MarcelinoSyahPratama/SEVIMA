@@ -66,8 +66,10 @@ $datatugas = query("SELECT * FROM tugas WHERE id_guru=$idguru AND id_kelas=$idke
         <?php foreach ($datatugas as $row) : ?>
         <div class="listmateri">
             <div class="kiri">
-                <h3><?php echo $row["judulTugas"] ?></h3>
-                <p>Waktu Pengerjaan : <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p>
+                <a href="detailtugasGuru.php?id=<?php echo $row["id"] ?>">
+                    <h3><?php echo $row["judulTugas"] ?></h3>
+                    <p>Waktu Pengerjaan : <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p>
+                </a>
             </div>
             <div class="kanan">
                 <a href=""><button class="btn-danger"><i class="fa-solid fa-trash"></i></button></a>

@@ -52,7 +52,11 @@
             <div class="jawab">
                 <center>
                     <div class="kirimjawab">
-                            <button type="submit" class="form-control" name="ambiltugas">Lihat Jawaban Siswa</button>
+                        <h2 style="color: white;">Kirim Tugas</h2>
+                        <form action="" method="post">
+                            <input type="file" class="form-control">
+                            <button type="submit" class="form-control" name="ambiltugas">Kirim</button>
+                        </form>
                     </div>
                 </center>
                 

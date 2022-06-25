@@ -1,4 +1,9 @@
-
+<?php 
+require "koneksi.php";
+session_start();
+$idsoal=$_GET["id"];
+$datasoal = query("SELECT * FROM tugas WHERE id=$idsoal");
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -40,25 +45,25 @@
           </div>
           
         </div>
+        <?php foreach ($datasoal as $row) : ?>
         <div class="ui header">
-          <div class="heading2"><h1>Judul Tugas</h1> <p>oktafiano | 20-03-2022 - 30-03-2022</p></div>
+          <div class="heading2"><h1><?php echo $row["judulTugas"] ?></h1> <p><?php echo $_SESSION["nama"] ?> | <?php echo $row["tglpost"] ?> Sampai <?php echo $row["deadline"] ?></p></div>
           <div class="ui clearing divider"></div>
         </div>
         <div class="tugas">
             <div class="soal">
                 <h2><strong>Soal</strong></h2>
-                <p>4. Mengerjakan tugas dibuku tulis matematika jawaban dan cara penyelesaian dengan menuliskan nama, no absen</p>
+                <p><?php echo $row["soal"] ?></p>
             </div>
             <div class="jawab">
                 <center>
                     <div class="kirimjawab">
                             <button type="submit" class="form-control" name="ambiltugas">Lihat Jawaban Siswa</button>
                     </div>
-                </center>
-                
+                </center>  
             </div>
-            
         </div>
+        <?php endforeach; ?>
 
         
 
